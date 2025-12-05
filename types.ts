@@ -11,6 +11,15 @@ export interface WorkoutLog {
   notes?: string;
 }
 
+export interface HistoryEntry {
+  date: string;
+  dayType: string;
+  exerciseName: string;
+  weight: number;
+  reps: string;
+  notes: string;
+}
+
 export type DayType = "Upper A" | "Lower A" | "Upper B" | "Lower B" | "Rest";
 
 export interface User {
