@@ -1,0 +1,5 @@
+{
+  "name": "GymTracker AI (CN)",
+  "description": "A smart fitness tracker with Google Sheets integration and Gemini AI coaching, localized for Chinese users.",
+  "requestFramePermissions": []
+}
