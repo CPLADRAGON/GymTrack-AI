@@ -13,7 +13,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
   const [loading, setLoading] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState<string>('');
   const [exercisesList, setExercisesList] = useState<string[]>([]);
-
+  
   // Chart Refs
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
@@ -29,7 +29,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
       setLoading(true);
       const data = await getWorkoutHistory(accessToken, spreadsheetId);
       setHistory(data);
-
+      
       // Extract unique exercises
       const uniqueExercises = Array.from(new Set(data.map(d => d.exerciseName)));
       setExercisesList(uniqueExercises);
@@ -48,9 +48,9 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
     // Filter data for selected exercise
     const exerciseData = history
       .filter(h => h.exerciseName === selectedExercise)
-    // Sort by date roughly (assuming date string format allows sorting, or just rely on insert order)
-    // For better sorting we might need date parsing, but standard insert order usually works for logs
-
+      // Sort by date roughly (assuming date string format allows sorting, or just rely on insert order)
+      // For better sorting we might need date parsing, but standard insert order usually works for logs
+    
     const labels = exerciseData.map(d => d.date);
     const dataPoints = exerciseData.map(d => d.weight);
 
@@ -127,7 +127,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
       {/* Controls */}
       <div className="mb-6">
         <label className="block text-slate-400 text-sm mb-2">选择动作</label>
-        <select
+        <select 
           value={selectedExercise}
           onChange={(e) => setSelectedExercise(e.target.value)}
           className="w-full bg-slate-800 text-white p-3 rounded-lg border border-slate-600 outline-none focus:border-blue-500"
@@ -160,14 +160,14 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
           <div className="bg-slate-800 w-full max-w-2xl max-h-[80vh] rounded-2xl border border-slate-600 flex flex-col shadow-2xl">
             <div className="p-4 border-b border-slate-700 flex justify-between items-center">
               <h3 className="text-xl font-bold text-white">AI 教练分析报告</h3>
-              <button
+              <button 
                 onClick={() => setShowModal(false)}
                 className="text-slate-400 hover:text-white text-2xl"
               >
                 &times;
               </button>
             </div>
-
+            
             <div className="p-6 overflow-y-auto flex-1">
               {generatingReport ? (
                 <div className="flex flex-col items-center justify-center h-full space-y-4">
@@ -182,7 +182,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ accessToken, spre
                 </div>
               )}
             </div>
-
+            
             <div className="p-4 border-t border-slate-700 bg-slate-900/50 rounded-b-2xl">
               <button
                 onClick={() => setShowModal(false)}

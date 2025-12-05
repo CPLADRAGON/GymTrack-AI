@@ -9,7 +9,7 @@ export const logWorkoutToSheet = async (
   dayType: string
 ): Promise<boolean> => {
   const date = new Date().toLocaleDateString('zh-CN');
-
+  
   // Prepare row data: [Date, Day Type, Exercise, Weight, Reps, Notes]
   const values = [
     [
@@ -28,7 +28,7 @@ export const logWorkoutToSheet = async (
 
   try {
     // We use "Sheet1" as default. ValueInputOption USER_ENTERED parses numbers correctly.
-    const range = 'Sheet1!A1';
+    const range = 'Sheet1!A1'; 
     const url = `${SHEETS_API_BASE}/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
@@ -60,7 +60,7 @@ export const getWorkoutHistory = async (
   try {
     // Fetch columns A to F. Assuming Sheet1. 
     // Format: Date, DayType, Exercise, Weight, Reps, Notes
-    const range = 'Sheet1!A2:F1000';
+    const range = 'Sheet1!A2:F1000'; 
     const url = `${SHEETS_API_BASE}/${spreadsheetId}/values/${range}`;
 
     const response = await fetch(url, {
@@ -86,7 +86,7 @@ export const getWorkoutHistory = async (
       reps: row[4] || '',
       notes: row[5] || ''
     })).filter((entry: HistoryEntry) => entry.exerciseName && !isNaN(entry.weight));
-
+    
   } catch (error) {
     console.error("Error fetching history:", error);
     return [];

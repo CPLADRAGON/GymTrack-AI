@@ -3,11 +3,11 @@ import Login from './components/Login';
 import ExerciseCard from './components/ExerciseCard';
 import AICoach from './components/AICoach';
 import ProgressDashboard from './components/ProgressDashboard';
-import {
-  WEEKLY_SCHEDULE,
-  WORKOUT_PLAN,
-  PLAN_DISPLAY_NAMES,
-  LABELS
+import { 
+  WEEKLY_SCHEDULE, 
+  WORKOUT_PLAN, 
+  PLAN_DISPLAY_NAMES, 
+  LABELS 
 } from './constants';
 import { logWorkoutToSheet } from './services/sheetService';
 import { WorkoutLog } from './types';
@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const [spreadsheetId, setSpreadsheetId] = useState<string | null>(null);
   const [tempSheetId, setTempSheetId] = useState('');
   const [currentView, setCurrentView] = useState<'home' | 'progress'>('home');
-
+  
   // State initialization from LocalStorage
   useEffect(() => {
     const storedSheetId = localStorage.getItem('gym_tracker_sheet_id');
@@ -116,11 +116,11 @@ const App: React.FC = () => {
                 <h2 className="text-slate-400 text-sm font-semibold uppercase tracking-wider">{LABELS.todayPlan}</h2>
                 <span className="text-xs text-slate-500">{todaysExercises.length} {LABELS.exercises}</span>
               </div>
-
+              
               {todaysExercises.map((exercise, index) => (
-                <ExerciseCard
-                  key={`${dayType}-${index}`}
-                  exercise={exercise}
+                <ExerciseCard 
+                  key={`${dayType}-${index}`} 
+                  exercise={exercise} 
                   onSave={handleLogExercise}
                 />
               ))}
@@ -134,14 +134,14 @@ const App: React.FC = () => {
 
       {/* Floating AI Coach (Only on Home tab for context) */}
       {currentView === 'home' && (
-        <AICoach
-          context={`Today is ${dayType} (${PLAN_DISPLAY_NAMES[dayType]}). Exercises: ${isRestDay ? "Rest" : todaysExercises.map(e => e.name).join(', ')}.`}
+        <AICoach 
+          context={`Today is ${dayType} (${PLAN_DISPLAY_NAMES[dayType]}). Exercises: ${isRestDay ? "Rest" : todaysExercises.map(e => e.name).join(', ')}.`} 
         />
       )}
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 px-6 py-3 flex justify-around z-40 pb-safe">
-        <button
+        <button 
           onClick={() => setCurrentView('home')}
           className={`flex flex-col items-center gap-1 ${currentView === 'home' ? 'text-blue-400' : 'text-slate-500'}`}
         >
@@ -150,7 +150,7 @@ const App: React.FC = () => {
           </svg>
           <span className="text-xs font-medium">今日计划</span>
         </button>
-        <button
+        <button 
           onClick={() => setCurrentView('progress')}
           className={`flex flex-col items-center gap-1 ${currentView === 'progress' ? 'text-blue-400' : 'text-slate-500'}`}
         >

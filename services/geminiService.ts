@@ -45,7 +45,7 @@ export const generateWeeklyReport = async (history: HistoryEntry[]): Promise<str
   if (!process.env.API_KEY) return "API Key 配置缺失。";
 
   // Summarize the last 30 entries roughly for the prompt
-  const recentHistory = history.slice(-50).map(h =>
+  const recentHistory = history.slice(-50).map(h => 
     `${h.date}: ${h.exerciseName} - ${h.weight}kg x ${h.reps}`
   ).join('\n');
 
