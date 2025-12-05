@@ -32,16 +32,26 @@ export const WORKOUT_PLAN: Record<string, Exercise[]> = {
   ]
 };
 
-// Map JS Date.getDay() (0-6) to our specific split
-// 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-export const WEEKLY_SCHEDULE: DayType[] = [
-  "Rest",    // Sunday
-  "Upper A", // Monday
-  "Lower A", // Tuesday
-  "Rest",    // Wednesday
-  "Upper B", // Thursday
-  "Lower B", // Friday
-  "Rest"     // Saturday
+// The 7-day pattern logic. 
+// If Start Day is Monday: Mon=Upper A, Tue=Lower A, Wed=Rest, Thu=Upper B, Fri=Lower B, Sat=Rest, Sun=Rest
+export const WORKOUT_CYCLE: DayType[] = [
+  "Upper A",
+  "Lower A",
+  "Rest",
+  "Upper B",
+  "Lower B",
+  "Rest",
+  "Rest"
+];
+
+export const DAYS_OF_WEEK = [
+  "周日 (Sunday)",
+  "周一 (Monday)",
+  "周二 (Tuesday)",
+  "周三 (Wednesday)",
+  "周四 (Thursday)",
+  "周五 (Friday)",
+  "周六 (Saturday)"
 ];
 
 // Simplified Chinese Translations
@@ -62,15 +72,19 @@ export const LABELS = {
   coachPlaceholder: "例如：给哑铃卧推提个建议...",
   send: "发送",
   close: "关闭",
-  configureSheet: "配置 Google Sheet",
-  sheetIdPlaceholder: "请输入 Spreadsheet ID",
+  configureSheet: "配置",
+  sheetIdPlaceholder: "Google Sheet ID",
   save: "保存",
   logging: "正在记录...",
   success: "记录成功！",
   error: "发生错误",
-  setupGuide: "请创建一个新的 Google Sheet，并将 URL 中的 ID 复制到此处。APP 将自动创建日志。",
+  setupGuide: "您的健身数据将保存在 Google Sheet 中。",
   trainingDay: "训练日",
-  exercises: "训练动作"
+  exercises: "训练动作",
+  settings: "设置",
+  startDayLabel: "本周计划开始于：",
+  creatingSheet: "正在创建您的专属训练日志...",
+  startDayHelp: "选择哪一天作为训练循环的第一天（Upper A）。"
 };
 
 // Mapping internal keys to Chinese display names

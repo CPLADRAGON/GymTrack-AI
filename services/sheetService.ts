@@ -2,6 +2,53 @@ import { WorkoutLog, HistoryEntry } from '../types';
 
 const SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
 
+export const createWorkoutSheet = async (accessToken: string): Promise<string | null> => {
+  try {
+    const createUrl = `${SHEETS_API_BASE}`;
+    const body = {
+      properties: {
+        title: "GymTracker AI Logs"
+      }
+    };
+
+    // 1. Create the Sheet
+    const response = await fetch(createUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create spreadsheet');
+    }
+
+    const data = await response.json();
+    const spreadsheetId = data.spreadsheetId;
+
+    // 2. Add Headers
+    const headerValues = [["Date", "Day Type", "Exercise", "Weight", "Reps", "Notes"]];
+    const range = 'Sheet1!A1:F1';
+    const appendUrl = `${SHEETS_API_BASE}/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+
+    await fetch(appendUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ values: headerValues })
+    });
+
+    return spreadsheetId;
+  } catch (error) {
+    console.error("Error creating sheet:", error);
+    return null;
+  }
+};
+
 export const logWorkoutToSheet = async (
   accessToken: string,
   spreadsheetId: string,
@@ -9,7 +56,7 @@ export const logWorkoutToSheet = async (
   dayType: string
 ): Promise<boolean> => {
   const date = new Date().toLocaleDateString('zh-CN');
-  
+
   // Prepare row data: [Date, Day Type, Exercise, Weight, Reps, Notes]
   const values = [
     [
@@ -28,7 +75,7 @@ export const logWorkoutToSheet = async (
 
   try {
     // We use "Sheet1" as default. ValueInputOption USER_ENTERED parses numbers correctly.
-    const range = 'Sheet1!A1'; 
+    const range = 'Sheet1!A1';
     const url = `${SHEETS_API_BASE}/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
@@ -60,7 +107,7 @@ export const getWorkoutHistory = async (
   try {
     // Fetch columns A to F. Assuming Sheet1. 
     // Format: Date, DayType, Exercise, Weight, Reps, Notes
-    const range = 'Sheet1!A2:F1000'; 
+    const range = 'Sheet1!A2:F1000';
     const url = `${SHEETS_API_BASE}/${spreadsheetId}/values/${range}`;
 
     const response = await fetch(url, {
@@ -86,7 +133,7 @@ export const getWorkoutHistory = async (
       reps: row[4] || '',
       notes: row[5] || ''
     })).filter((entry: HistoryEntry) => entry.exerciseName && !isNaN(entry.weight));
-    
+
   } catch (error) {
     console.error("Error fetching history:", error);
     return [];
